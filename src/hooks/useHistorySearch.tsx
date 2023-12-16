@@ -4,7 +4,7 @@ import { HistoryEntry, HistoryQueryFunction, SearchResult, SupportedBrowsers } f
 import { getHistoryDateColumn, getHistoryDbPath, getHistoryTable } from "../util";
 import { NotInstalledError } from "../components";
 
-const whereClauses = (tableTitle: string, terms: string[], tableUrl?: string) => {
+const whereClauses = (tableTitle: string, terms: string[]) => {
   return terms.map((t) => `${tableTitle}.title LIKE '%${t}%'`).join(" AND ");
 };
 
@@ -15,7 +15,7 @@ const getChromiumGeckoHistoryQuery = (table: string, date_field: string, terms: 
   WHERE ${whereClauses(table, terms)}
   ORDER BY ${date_field} DESC LIMIT 50;`;
 
-const getHistoryQuery = (browser: SupportedBrowsers): HistoryQueryFunction => {
+const getHistoryQuery = (): HistoryQueryFunction => {
   return getChromiumGeckoHistoryQuery;
 };
 
@@ -49,11 +49,5 @@ const searchHistory = (
 };
 
 export function useHistorySearch(browser: SupportedBrowsers, query: string | undefined): SearchResult {
-  return searchHistory(
-    browser,
-    getHistoryTable(browser),
-    getHistoryDateColumn(browser),
-    getHistoryQuery(browser),
-    query
-  );
+  return searchHistory(browser, getHistoryTable(), getHistoryDateColumn(), getHistoryQuery(), query);
 }

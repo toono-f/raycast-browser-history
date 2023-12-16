@@ -29,10 +29,10 @@ export const getHistoryDbPath = (browser: SupportedBrowsers) => {
   }
 };
 
-export const getHistoryTable = (browser: SupportedBrowsers): string => {
+export const getHistoryTable = (): string => {
   return "urls";
 };
 
-export const getHistoryDateColumn = (browser: SupportedBrowsers): string => {
+export const getHistoryDateColumn = (): string => {
   return "last_visit_time";
 };
