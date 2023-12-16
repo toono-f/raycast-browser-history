@@ -8,26 +8,8 @@ export async function openNewTab(browser: SupportedBrowsers, url: string): Promi
     case SupportedBrowsers.Chrome:
       appName = "Google Chrome";
       break;
-    case SupportedBrowsers.Safari:
-      appName = "Safari";
-      break;
-    case SupportedBrowsers.Edge:
-      appName = "Microsoft Edge";
-      break;
-    case SupportedBrowsers.Brave:
-      appName = "Brave Browser";
-      break;
-    case SupportedBrowsers.Vivaldi:
-      appName = "Vivaldi";
-      break;
-    case SupportedBrowsers.Opera:
-      appName = "Opera";
-      break;
-    case SupportedBrowsers.Iridium:
-      appName = "Iridium";
-      break;
-    case SupportedBrowsers.Orion:
-      appName = "Orion";
+    case SupportedBrowsers.Sidekick:
+      appName = "Sidekick";
       break;
     default:
       throw new Error(`Unsupported browser: ${browser}`);
