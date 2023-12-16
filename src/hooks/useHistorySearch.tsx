@@ -13,7 +13,7 @@ const getChromiumGeckoHistoryQuery = (table: string, date_field: string, terms: 
     datetime(${date_field} / 1000000 + (strftime('%s', '1601-01-01')), 'unixepoch', 'localtime') as lastVisited
   FROM ${table}
   WHERE ${whereClauses(table, terms)}
-  ORDER BY ${date_field} DESC LIMIT 30;`;
+  ORDER BY ${date_field} DESC LIMIT 50;`;
 
 const getHistoryQuery = (browser: SupportedBrowsers): HistoryQueryFunction => {
   return getChromiumGeckoHistoryQuery;
