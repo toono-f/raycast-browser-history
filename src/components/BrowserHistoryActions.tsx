@@ -1,4 +1,10 @@
-import { Action, ActionPanel, getPreferenceValues, Icon, openCommandPreferences } from "@raycast/api";
+import {
+  Action,
+  ActionPanel,
+  getPreferenceValues,
+  Icon,
+  openCommandPreferences,
+} from "@raycast/api";
 import { openNewTab } from "../actions";
 import { HistoryEntry, Preferences, SupportedBrowsers } from "../interfaces";
 
@@ -7,7 +13,11 @@ export class BrowserHistoryActions {
   public static OpenPreferences = ActionOpenPreferences;
 }
 
-function HistoryItemAction({ entry: { url, browser } }: { entry: HistoryEntry }) {
+function HistoryItemAction({
+  entry: { url, browser },
+}: {
+  entry: HistoryEntry;
+}) {
   const { defaultBrowser } = getPreferenceValues<Preferences>();
   const actions = {
     [SupportedBrowsers.Chrome]: (
@@ -40,10 +50,18 @@ function HistoryItemAction({ entry: { url, browser } }: { entry: HistoryEntry })
       )}
 
       <ActionPanel.Section title={"Copy"}>
-        <Action.CopyToClipboard title="Copy URL" content={url} shortcut={{ modifiers: ["cmd", "shift"], key: "c" }} />
+        <Action.CopyToClipboard
+          title="Copy URL"
+          content={url}
+          shortcut={{ modifiers: ["cmd", "shift"], key: "c" }}
+        />
       </ActionPanel.Section>
-      <ActionPanel.Section title={"Open In"}>{actions[SupportedBrowsers.Chrome]}</ActionPanel.Section>
-      <ActionPanel.Section title={"Open In"}>{actions[SupportedBrowsers.Sidekick]}</ActionPanel.Section>
+      <ActionPanel.Section title={"Open In"}>
+        {actions[SupportedBrowsers.Chrome]}
+      </ActionPanel.Section>
+      <ActionPanel.Section title={"Open In"}>
+        {actions[SupportedBrowsers.Sidekick]}
+      </ActionPanel.Section>
     </ActionPanel>
   );
 }

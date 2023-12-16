@@ -2,7 +2,11 @@ import { useState } from "react";
 import { ActionPanel, Detail, showToast, Toast } from "@raycast/api";
 import { execSync } from "child_process";
 import { SupportedBrowsers } from "../../interfaces";
-import { DEFAULT_ERROR_TITLE, DOWNLOAD_TEXT, INSTALL_COMMAND } from "../../constants";
+import {
+  DEFAULT_ERROR_TITLE,
+  DOWNLOAD_TEXT,
+  INSTALL_COMMAND,
+} from "../../constants";
 
 export function NotInstalledError({ browser }: { browser: SupportedBrowsers }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -18,11 +22,18 @@ export function NotInstalledError({ browser }: { browser: SupportedBrowsers }) {
 
                 setIsLoading(true);
 
-                const toast = new Toast({ style: Toast.Style.Animated, title: "Installing..." });
+                const toast = new Toast({
+                  style: Toast.Style.Animated,
+                  title: "Installing...",
+                });
                 await toast.show();
 
                 try {
-                  execSync(INSTALL_COMMAND[browser] !== undefined ? INSTALL_COMMAND[browser] || "" : "");
+                  execSync(
+                    INSTALL_COMMAND[browser] !== undefined
+                      ? INSTALL_COMMAND[browser] || ""
+                      : ""
+                  );
                   await toast.hide();
                 } catch {
                   await toast.hide();

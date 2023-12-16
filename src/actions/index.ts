@@ -2,7 +2,10 @@ import { closeMainWindow, popToRoot } from "@raycast/api";
 import { runAppleScript } from "run-applescript";
 import { SupportedBrowsers } from "../interfaces";
 
-export async function openNewTab(browser: SupportedBrowsers, url: string): Promise<boolean | string> {
+export async function openNewTab(
+  browser: SupportedBrowsers,
+  url: string
+): Promise<boolean | string> {
   let appName = "";
   switch (browser) {
     case SupportedBrowsers.Chrome:
@@ -42,7 +45,9 @@ export async function openNewArcTab(url: string): Promise<boolean | string> {
   return await runAppleScript(script);
 }
 
-export async function openNewFirefoxTab(url: string): Promise<boolean | string> {
+export async function openNewFirefoxTab(
+  url: string
+): Promise<boolean | string> {
   popToRoot();
   closeMainWindow({ clearRootSearch: true });
 

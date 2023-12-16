@@ -8,13 +8,24 @@ export type AccountType = "default" | "profile";
 
 export default function Command(): ReactElement {
   const preferences = getPreferenceValues<Preferences>();
-  const enabled = Object.entries(preferences).filter(([key, value]) => key.startsWith("enable") && value).length > 0;
+  const enabled =
+    Object.entries(preferences).filter(
+      ([key, value]) => key.startsWith("enable") && value
+    ).length > 0;
   const [searchText, setSearchText] = useState<string>();
   const isLoading: boolean[] = [];
 
   const [account, setAccount] = useState<AccountType>("profile");
-  const entriesDefault = getFormattedEntries(preferences, searchText, "default");
-  const entriesProfile = getFormattedEntries(preferences, searchText, "profile");
+  const entriesDefault = getFormattedEntries(
+    preferences,
+    searchText,
+    "default"
+  );
+  const entriesProfile = getFormattedEntries(
+    preferences,
+    searchText,
+    "profile"
+  );
 
   return (
     <List
@@ -60,14 +71,24 @@ export default function Command(): ReactElement {
   );
 }
 
-function getFormattedEntries(preferences: Preferences, searchText: string | undefined, account: AccountType) {
+function getFormattedEntries(
+  preferences: Preferences,
+  searchText: string | undefined,
+  account: AccountType
+) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const permissionView: any[] = [];
   const isLoading: boolean[] = [];
 
   let entries = Object.entries(preferences)
     .filter(([key, val]) => key.startsWith("enable") && val)
-    .map(([key]) => useHistorySearch(key.replace("enable", "") as SupportedBrowsers, searchText, account))
+    .map(([key]) =>
+      useHistorySearch(
+        key.replace("enable", "") as SupportedBrowsers,
+        searchText,
+        account
+      )
+    )
     .map((entry) => {
       if (entry.permissionView) {
         permissionView.push(entry.permissionView);
@@ -90,8 +111,13 @@ function getFormattedEntries(preferences: Preferences, searchText: string | unde
   entries.sort((a, b) => a.props.title.localeCompare(b.props.title));
 
   if (preferences.firstInResults) {
-    const firstEntry = entries.filter((e) => e.props.title === preferences.firstInResults);
-    entries = [firstEntry[0], ...entries.filter((e) => e.props.title !== preferences.firstInResults)];
+    const firstEntry = entries.filter(
+      (e) => e.props.title === preferences.firstInResults
+    );
+    entries = [
+      firstEntry[0],
+      ...entries.filter((e) => e.props.title !== preferences.firstInResults),
+    ];
   }
 
   return entries;

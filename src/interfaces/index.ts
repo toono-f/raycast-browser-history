@@ -28,4 +28,8 @@ export enum SupportedBrowsers {
   Sidekick = "Sidekick",
 }
 
-export type HistoryQueryFunction = (table: string, date_field: string, terms: string[]) => string;
+export type HistoryQueryFunction = (
+  table: string,
+  date_field: string,
+  terms: string[]
+) => string;

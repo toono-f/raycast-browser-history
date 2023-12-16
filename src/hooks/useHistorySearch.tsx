@@ -1,7 +1,16 @@
 import { existsSync } from "fs";
 import { useSQL } from "@raycast/utils";
-import { HistoryEntry, HistoryQueryFunction, SearchResult, SupportedBrowsers } from "../interfaces";
-import { getHistoryDateColumn, getHistoryDbPath, getHistoryTable } from "../util";
+import {
+  HistoryEntry,
+  HistoryQueryFunction,
+  SearchResult,
+  SupportedBrowsers,
+} from "../interfaces";
+import {
+  getHistoryDateColumn,
+  getHistoryDbPath,
+  getHistoryTable,
+} from "../util";
 import { NotInstalledError } from "../components";
 import { AccountType } from "../search-history";
 
@@ -9,7 +18,11 @@ const whereClauses = (tableTitle: string, terms: string[]) => {
   return terms.map((t) => `${tableTitle}.title LIKE '%${t}%'`).join(" AND ");
 };
 
-const getChromiumGeckoHistoryQuery = (table: string, date_field: string, terms: string[]) => `SELECT
+const getChromiumGeckoHistoryQuery = (
+  table: string,
+  date_field: string,
+  terms: string[]
+) => `SELECT
     id, url, title,
     datetime(${date_field} / 1000000 + (strftime('%s', '1601-01-01')), 'unixepoch', 'localtime') as lastVisited
   FROM ${table}
@@ -41,10 +54,17 @@ const searchHistory = (
     };
   }
 
-  const { data, isLoading, permissionView } = useSQL<HistoryEntry>(dbPath, queries);
+  const { data, isLoading, permissionView } = useSQL<HistoryEntry>(
+    dbPath,
+    queries
+  );
   return {
     browser,
-    data: data?.map((d) => ({ ...d, id: `${browser}-${d.id}`, browser: browser })),
+    data: data?.map((d) => ({
+      ...d,
+      id: `${browser}-${d.id}`,
+      browser: browser,
+    })),
     isLoading,
     permissionView,
   };
@@ -55,5 +75,12 @@ export function useHistorySearch(
   query: string | undefined,
   account: AccountType
 ): SearchResult {
-  return searchHistory(browser, getHistoryTable(), getHistoryDateColumn(), getHistoryQuery(), account, query);
+  return searchHistory(
+    browser,
+    getHistoryTable(),
+    getHistoryDateColumn(),
+    getHistoryQuery(),
+    account,
+    query
+  );
 }

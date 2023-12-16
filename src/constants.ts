@@ -1,7 +1,18 @@
 import { SupportedBrowsers } from "./interfaces";
 
-export const defaultProfilePathChrome = ["Application Support", "Google", "Chrome", "Default", "History"];
-export const defaultProfilePathSidekick = ["Application Support", "Sidekick", "Default", "History"];
+export const defaultProfilePathChrome = [
+  "Application Support",
+  "Google",
+  "Chrome",
+  "Default",
+  "History",
+];
+export const defaultProfilePathSidekick = [
+  "Application Support",
+  "Sidekick",
+  "Default",
+  "History",
+];
 
 const DownloadTextChrome = `
   # 🚨Error: Google Chrome browser is not installed

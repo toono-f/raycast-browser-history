@@ -1,7 +1,10 @@
 import path from "path";
 import { Preferences, SupportedBrowsers } from "../interfaces";
 import { getPreferenceValues } from "@raycast/api";
-import { defaultProfilePathChrome, defaultProfilePathSidekick } from "../constants";
+import {
+  defaultProfilePathChrome,
+  defaultProfilePathSidekick,
+} from "../constants";
 import { AccountType } from "../search-history";
 
 const userLibraryDirectoryPath = () => {
@@ -12,8 +15,12 @@ const userLibraryDirectoryPath = () => {
   return path.join(process.env.HOME, "Library");
 };
 
-export const getHistoryDbPath = (browser: SupportedBrowsers, account: AccountType) => {
-  const { profilePathChrome, profilePathSidekick } = getPreferenceValues<Preferences>();
+export const getHistoryDbPath = (
+  browser: SupportedBrowsers,
+  account: AccountType
+) => {
+  const { profilePathChrome, profilePathSidekick } =
+    getPreferenceValues<Preferences>();
   const userDataDirectory = userLibraryDirectoryPath();
 
   switch (browser) {
