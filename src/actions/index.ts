@@ -22,9 +22,7 @@ export async function openNewTab(browser: SupportedBrowsers, url: string): Promi
     tell application "${appName}"
       activate
       tell window 1
-          set ${
-            browser === SupportedBrowsers.Safari ? "current tab" : "newTab"
-          } to make new tab with properties {URL:"${url}"}
+          set ${"newTab"} to make new tab with properties {URL:"${url}"}
       end tell
     end tell
     return
