@@ -14,7 +14,7 @@ export default function Command(): ReactElement {
 
   let entries = Object.entries(preferences)
     .filter(([key, val]) => key.startsWith("enable") && val)
-    .map(([key], idx) => useHistorySearch(key.replace("enable", "") as SupportedBrowsers, searchText))
+    .map(([key]) => useHistorySearch(key.replace("enable", "") as SupportedBrowsers, searchText))
     .map((entry) => {
       if (entry.permissionView) {
         permissionView.push(entry.permissionView);
