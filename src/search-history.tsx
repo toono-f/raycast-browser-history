@@ -12,7 +12,7 @@ export default function Command(): ReactElement {
   const [searchText, setSearchText] = useState<string>();
   const isLoading: boolean[] = [];
 
-  const [account, setAccount] = useState<AccountType>("default");
+  const [account, setAccount] = useState<AccountType>("profile");
   const entriesDefault = getFormattedEntries(preferences, searchText, "default");
   const entriesProfile = getFormattedEntries(preferences, searchText, "profile");
 
