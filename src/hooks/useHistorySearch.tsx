@@ -35,14 +35,7 @@ const getChromiumGeckoHistoryQuery = (table: string, date_field: string, terms: 
   ORDER BY ${date_field} DESC LIMIT 30;`;
 
 const getHistoryQuery = (browser: SupportedBrowsers): HistoryQueryFunction => {
-  switch (browser) {
-    case SupportedBrowsers.Safari:
-      return getWebKitHistoryQuery;
-    case SupportedBrowsers.Orion:
-      return getOrionHistoryQuery;
-    default:
-      return getChromiumGeckoHistoryQuery;
-  }
+  return getChromiumGeckoHistoryQuery;
 };
 
 const searchHistory = (
