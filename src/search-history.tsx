@@ -4,6 +4,8 @@ import { ReactElement, useState } from "react";
 import { Preferences, SupportedBrowsers } from "./interfaces";
 import { BrowserHistoryActions, ListEntries } from "./components";
 
+export type AccountType = "work" | "home" | "default";
+
 export default function Command(): ReactElement {
   const preferences = getPreferenceValues<Preferences>();
   const enabled = Object.entries(preferences).filter(([key, value]) => key.startsWith("enable") && value).length > 0;
@@ -11,6 +13,54 @@ export default function Command(): ReactElement {
 
   const isLoading: boolean[] = [];
   const permissionView: any[] = [];
+  // const [account, setAccount] = useState<AccountType>("work");
+
+  const entries = getFormattedEntries(preferences, searchText);
+
+  return (
+    <List
+      searchBarPlaceholder="Search History..."
+      onSearchTextChange={function (query) {
+        setSearchText(query);
+      }}
+      isLoading={isLoading.some((e) => e)}
+      throttle={false}
+      // searchBarAccessory={
+      //   <List.Dropdown
+      //     tooltip={"Select Account"}
+      //     storeValue={true}
+      //     onChange={(newValue) => setAccount(newValue as AccountType)}
+      //   >
+      //     <List.Dropdown.Section>
+      //       <List.Dropdown.Item key={1} title={"work"} value={"work"} />
+      //     </List.Dropdown.Section>
+      //     <List.Dropdown.Section>
+      //       <List.Dropdown.Item key={1} title={"home"} value={"home"} />
+      //     </List.Dropdown.Section>
+      //   </List.Dropdown>
+      // }
+    >
+      {!enabled ? (
+        <List.EmptyView
+          title="You haven't enabled any browsers yet"
+          description="You can choose which browsers history to integrate in preferences"
+          icon={"icon-small.png"}
+          actions={
+            <ActionPanel>
+              <BrowserHistoryActions.OpenPreferences />
+            </ActionPanel>
+          }
+        />
+      ) : (
+        entries
+      )}
+    </List>
+  );
+}
+
+function getFormattedEntries(preferences: Preferences, searchText: string | undefined) {
+  const permissionView: any[] = [];
+  const isLoading: boolean[] = [];
 
   let entries = Object.entries(preferences)
     .filter(([key, val]) => key.startsWith("enable") && val)
@@ -41,29 +91,5 @@ export default function Command(): ReactElement {
     entries = [firstEntry[0], ...entries.filter((e) => e.props.title !== preferences.firstInResults)];
   }
 
-  return (
-    <List
-      searchBarPlaceholder="Search History..."
-      onSearchTextChange={function (query) {
-        setSearchText(query);
-      }}
-      isLoading={isLoading.some((e) => e)}
-      throttle={false}
-    >
-      {!enabled ? (
-        <List.EmptyView
-          title="You haven't enabled any browsers yet"
-          description="You can choose which browsers history to integrate in preferences"
-          icon={"icon-small.png"}
-          actions={
-            <ActionPanel>
-              <BrowserHistoryActions.OpenPreferences />
-            </ActionPanel>
-          }
-        />
-      ) : (
-        entries
-      )}
-    </List>
-  );
+  return entries;
 }
