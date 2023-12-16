@@ -10,12 +10,10 @@ export default function Command(): ReactElement {
   const preferences = getPreferenceValues<Preferences>();
   const enabled = Object.entries(preferences).filter(([key, value]) => key.startsWith("enable") && value).length > 0;
   const [searchText, setSearchText] = useState<string>();
-
   const isLoading: boolean[] = [];
-  const permissionView: any[] = [];
-  // const [account, setAccount] = useState<AccountType>("work");
-
   const entries = getFormattedEntries(preferences, searchText);
+
+  // const [account, setAccount] = useState<AccountType>("work");
 
   return (
     <List
