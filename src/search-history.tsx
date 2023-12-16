@@ -4,16 +4,17 @@ import { ReactElement, useState } from "react";
 import { Preferences, SupportedBrowsers } from "./interfaces";
 import { BrowserHistoryActions, ListEntries } from "./components";
 
-export type AccountType = "work" | "home" | "default";
+export type AccountType = "default" | "profile";
 
 export default function Command(): ReactElement {
   const preferences = getPreferenceValues<Preferences>();
   const enabled = Object.entries(preferences).filter(([key, value]) => key.startsWith("enable") && value).length > 0;
   const [searchText, setSearchText] = useState<string>();
   const isLoading: boolean[] = [];
-  const entries = getFormattedEntries(preferences, searchText);
 
-  // const [account, setAccount] = useState<AccountType>("work");
+  const [account, setAccount] = useState<AccountType>("default");
+  const entriesDefault = getFormattedEntries(preferences, searchText, "default");
+  const entriesProfile = getFormattedEntries(preferences, searchText, "profile");
 
   return (
     <List
@@ -23,20 +24,20 @@ export default function Command(): ReactElement {
       }}
       isLoading={isLoading.some((e) => e)}
       throttle={false}
-      // searchBarAccessory={
-      //   <List.Dropdown
-      //     tooltip={"Select Account"}
-      //     storeValue={true}
-      //     onChange={(newValue) => setAccount(newValue as AccountType)}
-      //   >
-      //     <List.Dropdown.Section>
-      //       <List.Dropdown.Item key={1} title={"work"} value={"work"} />
-      //     </List.Dropdown.Section>
-      //     <List.Dropdown.Section>
-      //       <List.Dropdown.Item key={1} title={"home"} value={"home"} />
-      //     </List.Dropdown.Section>
-      //   </List.Dropdown>
-      // }
+      searchBarAccessory={
+        <List.Dropdown
+          tooltip={"Select Account"}
+          storeValue={true}
+          onChange={(newValue) => setAccount(newValue as AccountType)}
+        >
+          <List.Dropdown.Section>
+            <List.Dropdown.Item key={1} title={"default"} value={"default"} />
+          </List.Dropdown.Section>
+          <List.Dropdown.Section>
+            <List.Dropdown.Item key={1} title={"profile"} value={"profile"} />
+          </List.Dropdown.Section>
+        </List.Dropdown>
+      }
     >
       {!enabled ? (
         <List.EmptyView
@@ -50,20 +51,23 @@ export default function Command(): ReactElement {
           }
         />
       ) : (
-        entries
+        <>
+          {account === "default" && entriesDefault}
+          {account === "profile" && entriesProfile}
+        </>
       )}
     </List>
   );
 }
 
-function getFormattedEntries(preferences: Preferences, searchText: string | undefined) {
+function getFormattedEntries(preferences: Preferences, searchText: string | undefined, account: AccountType) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const permissionView: any[] = [];
   const isLoading: boolean[] = [];
 
   let entries = Object.entries(preferences)
     .filter(([key, val]) => key.startsWith("enable") && val)
-    .map(([key]) => useHistorySearch(key.replace("enable", "") as SupportedBrowsers, searchText))
+    .map(([key]) => useHistorySearch(key.replace("enable", "") as SupportedBrowsers, searchText, account))
     .map((entry) => {
       if (entry.permissionView) {
         permissionView.push(entry.permissionView);

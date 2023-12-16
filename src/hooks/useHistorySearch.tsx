@@ -3,6 +3,7 @@ import { useSQL } from "@raycast/utils";
 import { HistoryEntry, HistoryQueryFunction, SearchResult, SupportedBrowsers } from "../interfaces";
 import { getHistoryDateColumn, getHistoryDbPath, getHistoryTable } from "../util";
 import { NotInstalledError } from "../components";
+import { AccountType } from "../search-history";
 
 const whereClauses = (tableTitle: string, terms: string[]) => {
   return terms.map((t) => `${tableTitle}.title LIKE '%${t}%'`).join(" AND ");
@@ -24,11 +25,12 @@ const searchHistory = (
   table: string,
   date_field: string,
   queryBuilder: (table: string, date_field: string, terms: string[]) => string,
+  account: AccountType,
   query?: string
 ): SearchResult => {
   const terms = query ? query.trim().split(" ") : [""];
   const queries = queryBuilder(table, date_field, terms);
-  const dbPath = getHistoryDbPath(browser);
+  const dbPath = getHistoryDbPath(browser, account);
 
   if (!existsSync(dbPath)) {
     return {
@@ -48,6 +50,10 @@ const searchHistory = (
   };
 };
 
-export function useHistorySearch(browser: SupportedBrowsers, query: string | undefined): SearchResult {
-  return searchHistory(browser, getHistoryTable(), getHistoryDateColumn(), getHistoryQuery(), query);
+export function useHistorySearch(
+  browser: SupportedBrowsers,
+  query: string | undefined,
+  account: AccountType
+): SearchResult {
+  return searchHistory(browser, getHistoryTable(), getHistoryDateColumn(), getHistoryQuery(), account, query);
 }
