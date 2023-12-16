@@ -43,6 +43,7 @@ export default function Command(): ReactElement {
 
   return (
     <List
+      searchBarPlaceholder="Search History..."
       onSearchTextChange={function (query) {
         setSearchText(query);
       }}
