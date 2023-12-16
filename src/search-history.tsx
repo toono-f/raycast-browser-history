@@ -59,6 +59,7 @@ export default function Command(): ReactElement {
 }
 
 function getFormattedEntries(preferences: Preferences, searchText: string | undefined) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const permissionView: any[] = [];
   const isLoading: boolean[] = [];
 
