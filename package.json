@@ -1,9 +1,9 @@
 {
   "$schema": "https://www.raycast.com/schemas/extension.json",
-  "name": "browser-history",
-  "title": "Browser History",
+  "name": "search-sidekick-history",
+  "title": "Search Sidekick History",
   "description": "Search and open tabs from history in Chrome, Sidekick.",
-  "icon": "icon.png",
+  "icon": "sidekick-logo.png",
   "author": "toono-f",
   "categories": [
     "Applications",
@@ -15,8 +15,7 @@
   "commands": [
     {
       "name": "search-history",
-      "title": "Search Browser History",
-      "subtitle": "Browser History",
+      "title": "Search Sidekick History",
       "description": "Search browser history across your browsers and open across browsers.",
       "mode": "view",
       "preferences": [
